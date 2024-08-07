@@ -5,6 +5,7 @@ from utils import plotter
 from utils import dataset_generator
 from torch.optim.sgd import SGD
 from torch.nn import L1Loss
+from pathlib import Path
 
 
 class Trainer:
@@ -43,3 +44,11 @@ class Trainer:
                     self.train_losses.append(train_loss)
                     self.test_losses.append(test_loss)
         plotter.plot_loss(self.epoch_counts, self.train_losses, self.test_losses)
+
+
+    def save_model(self):
+        MODEL_PATH = Path("./models_dir")
+        MODEL_PATH.mkdir(parents=True, exist_ok=True)
+        MODEL_NAME = "quadratic_equation_model_0.pth"
+        MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
+        torch.save(obj=self.model.state_dict(), f=MODEL_SAVE_PATH)
